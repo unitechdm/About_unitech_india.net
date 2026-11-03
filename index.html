@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UniTech – About Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#E10B1F;          /* Precision Red */
+    --red-soft:rgba(225,11,31,.15);
+    --charcoal:#16181B;
+    --panel:#1E2125;
+    --line:#2C3035;
+    --silver:#B9BFC6;
+    --white:#FFFFFF;
+    --hh:64px;              /* header height */
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#0B0C0E;color:var(--white);font-family:'Inter',sans-serif;overflow:hidden}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;height:var(--hh);z-index:20;
+    display:flex;align-items:center;gap:18px;padding:0 20px;
+    background:rgba(14,15,17,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex;align-items:center;height:100%;flex:0 0 auto}
+  .brand img{height:34px;background:#fff;border-radius:6px;padding:3px 8px}
+  nav{flex:1;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;scroll-behavior:smooth}
+  nav::-webkit-scrollbar{display:none}
+  nav button{
+    flex:0 0 auto;padding:10px 12px;border-radius:6px;white-space:nowrap;
+    font:600 12px 'Montserrat',sans-serif;letter-spacing:.04em;text-transform:uppercase;
+    color:var(--silver);position:relative;transition:color .25s,background .25s;
+  }
+  nav button span{color:#6b7178;margin-right:6px;font-weight:700}
+  nav button:hover{color:#fff;background:#23262a}
+  nav button.active{color:#fff;background:var(--red-soft)}
+  nav button.active span{color:var(--red)}
+  nav button.active::after{content:"";position:absolute;left:12px;right:12px;bottom:2px;height:2px;background:var(--red);border-radius:2px}
+  #fsBtn{flex:0 0 auto;width:38px;height:38px;border:1px solid var(--line);border-radius:8px;display:grid;place-items:center;transition:.25s}
+  #fsBtn:hover{border-color:var(--red);color:var(--red)}
+
+  /* ---------- STAGE (16:9) ---------- */
+  main{position:fixed;inset:var(--hh) 0 0 0;display:grid;place-items:center;padding:14px}
+  .stage{
+    position:relative;overflow:hidden;container-type:inline-size;
+    width:min(100%, calc((100dvh - var(--hh) - 28px) * 16 / 9));
+    aspect-ratio:16/9;
+    background:var(--charcoal);border-radius:14px;border:1px solid var(--line);
+    box-shadow:0 30px 80px rgba(0,0,0,.55);
+  }
+  .track{display:flex;height:100%;width:100%;transition:transform .8s cubic-bezier(.65,.05,.25,1)}
+  .slide{
+    flex:0 0 100%;height:100%;position:relative;overflow:hidden;
+    padding:5.2cqw 7cqw 4.4cqw;font-size:1.08cqw;line-height:1.55;
+    background:
+      radial-gradient(60cqw 40cqw at 100% 0%, rgba(225,11,31,.10), transparent 60%),
+      linear-gradient(180deg,#191C20,#14161A);
+  }
+  .slide::before{ /* subtle industrial grid */
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:4cqw 4cqw;mask-image:linear-gradient(120deg,transparent 40%,#000 100%);
+  }
+  .slide>*{position:relative}
+
+  /* reveal animation */
+  .reveal{opacity:0;transform:translateY(1.6cqw);transition:opacity .7s ease,transform .7s ease}
+  .slide.active .reveal{opacity:1;transform:none;transition-delay:calc(.35s + var(--d,0) * .12s)}
+
+  /* typography */
+  .eyebrow{font:700 .85em 'Montserrat',sans-serif;letter-spacing:.28em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:.8em}
+  .eyebrow::before{content:"";width:2.6em;height:2px;background:var(--red)}
+  h1,h2{font-family:'Montserrat',sans-serif;font-weight:700;line-height:1.1;letter-spacing:-.01em}
+  h2{font-size:3em;margin:.35em 0 .5em}
+  h2 em{font-style:normal;color:var(--red)}
+  p{color:#D5D9DE}
+  .num{font-family:'Montserrat',sans-serif;font-weight:800}
+
+  /* ---------- SLIDE 1 ---------- */
+  .about{display:grid;grid-template-columns:38% 1fr;gap:4.5cqw;height:100%;align-items:center}
+  .stats{display:grid;gap:1.1cqw;margin-top:1.6cqw}
+  .stat{display:flex;align-items:baseline;gap:1cqw;border-left:3px solid var(--red);padding-left:1cqw}
+  .stat b{font-size:2.6em;line-height:1}
+  .stat small{color:var(--silver);font-size:.95em}
+  .about-text{display:grid;gap:1.1em}
+  .chips{display:flex;flex-wrap:wrap;gap:.6em;margin-top:.2em}
+  .chip{padding:.45em 1em;border:1px solid #3a3f45;border-radius:99px;font-size:.88em;color:#e8eaed;background:#1c1f23}
+  /* logos: fixed-size white tiles, everything scales with the slide (cqw) */
+  .logos{display:flex;align-items:center;gap:1.2cqw;margin-top:1.8cqw}
+  .logos .logo{position:relative;overflow:hidden;background:#fff;border-radius:10px;height:5.4cqw;padding:.55cqw .9cqw;display:grid;place-items:center;box-shadow:0 .4cqw 1.2cqw rgba(0,0,0,.35)}
+  .logos .logo.mii{width:8.6cqw}
+  .logos .logo.mayax{width:13.2cqw;padding:0}
+  .logos .logo img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+  /* MAYAX file is a square with a lot of empty white space: crop to the wordmark */
+  .logos .logo.mayax img{position:absolute;left:50%;top:50%;width:108%;max-width:none;max-height:none;transform:translate(-48.7%,-50%)}
+
+  /* about us: category tiles + professional text */
+  .about-text{gap:1.5cqw}
+  .cats{display:grid;grid-template-columns:repeat(4,1fr);gap:.9cqw}
+  .cat{display:flex;flex-direction:column;align-items:flex-start;gap:.7em;padding:1cqw 1.1cqw 1.1cqw;
+       background:linear-gradient(180deg,#252a2f,#1b1e22);border:1px solid var(--line);border-top:3px solid var(--red);border-radius:10px;
+       transition:transform .3s,border-color .3s,background .3s}
+  .cat:hover{transform:translateY(-3px);border-color:var(--red);background:linear-gradient(180deg,#2d2024,#1f1a1c)}
+  .cat svg{width:2.4cqw;height:2.4cqw;stroke:var(--red);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .cat span{font:600 .84em/1.3 'Montserrat',sans-serif;color:#fff}
+  .lead{font-size:1.15em;line-height:1.55;color:#fff;border-left:3px solid var(--red);padding-left:1.1cqw}
+  .lead b{color:var(--red)}
+  .points{display:grid;gap:1cqw}
+  .pt{display:flex;gap:1.1cqw;align-items:flex-start}
+  .pt .pn{flex:0 0 2.3em;height:2.3em;border-radius:8px;background:var(--red-soft);color:var(--red);display:grid;place-items:center;font-style:normal;font-size:.9em}
+  .pt h4{font:700 1em 'Montserrat',sans-serif;margin-bottom:.1em}
+  .pt p{font-size:.92em;color:#cdd2d8;line-height:1.5}
+
+  /* ---------- GENERIC LAYOUT HELPERS ---------- */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:3cqw;align-items:center;height:calc(100% - 9cqw)}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8cqw}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1.6cqw;transition:border-color .3s,transform .3s}
+  .card:hover{border-color:var(--red);transform:translateY(-3px)}
+  .card h3{font:700 1.25em 'Montserrat',sans-serif;margin-bottom:.4em}
+  .photo{
+    display:grid;place-items:center;text-align:center;color:#7d848c;font-size:.9em;
+    border:1.5px dashed #3b4047;border-radius:12px;
+    background:repeating-linear-gradient(45deg,#1b1e22,#1b1e22 12px,#1f2327 12px,#1f2327 24px);
+  }
+  .photo img{width:100%;height:100%;object-fit:cover;border-radius:12px;display:block}
+  .todo{color:var(--silver);font-style:italic;font-size:.95em}
+
+  /* timeline */
+  .timeline{display:grid;gap:1.4cqw;border-left:2px solid var(--line);padding-left:2cqw;margin-left:.6cqw}
+  .tl{position:relative}
+  .tl::before{content:"";position:absolute;left:-2.55cqw;top:.45em;width:.9cqw;height:.9cqw;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px var(--red-soft)}
+  .tl .num{font-size:1.8em;color:var(--red);line-height:1.1}
+
+  /* ---------- SLIDE 2 (history) ---------- */
+  .history{display:grid;grid-template-columns:40% 1fr;gap:3.6cqw;height:100%;align-items:center}
+  .history h2{font-size:2.7em;margin:.3em 0 .25em}
+  .since{font-size:1.15em;color:var(--silver);margin-bottom:1.3cqw}
+  .since .num{color:#fff;font-size:1.3em}
+  .kpis{display:grid;grid-template-columns:1fr 1fr;gap:.9cqw;margin-bottom:1.5cqw}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:8px;padding:.8cqw 1.1cqw}
+  .kpi b{display:block;font-size:2.1em;line-height:1.1}
+  .kpi small{color:var(--silver);font-size:.9em}
+  .patent{border:1px solid #4a4f56;border-radius:8px;padding:1cqw 1.3cqw;display:flex;flex-wrap:wrap;align-items:center;gap:.5em .7em}
+  .patent small{color:var(--silver);font-size:.95em}
+  .patent .tag{background:var(--red);color:#fff;font:800 1.5em 'Montserrat',sans-serif;padding:.1em .5em;border-radius:4px;letter-spacing:.04em}
+  .patent p{flex-basis:100%;font-size:1.02em}
+  .patent p b{color:#fff}
+  .milestones{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:rgba(30,33,37,.7)}
+  .ms-head{background:var(--red);font:700 1.15em 'Montserrat',sans-serif;text-align:center;padding:.55em;letter-spacing:.03em}
+  .ms{display:flex;align-items:baseline;gap:1.2cqw;padding:.42cqw 1.3cqw;border-top:1px solid var(--line);font-size:.93em;transition:background .25s}
+  .ms:first-of-type{border-top:0}
+  .ms:hover{background:#262a2f}
+  .ms .num{flex:0 0 3.4em;color:var(--red);font-size:1.05em}
+  .ms strong{color:#fff;font-weight:600}
+  .ms span{color:#c9ced4}
+  .ms.hot{background:var(--red-soft)}
+
+  /* location */
+  .loc{display:grid;gap:1cqw;align-content:center}
+  .loc:hover{transform:none}
+  .info small{display:block;color:var(--red);font:700 .78em 'Montserrat',sans-serif;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.2em}
+  .info p{color:#e6e9ec}
+  .info a{color:#fff;text-decoration:none;border-bottom:1px solid var(--red)}
+  .info a:hover{color:var(--red)}
+
+  /* how we make machines */
+  .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:1.7cqw;margin:.2cqw -2cqw 0}
+  .fstep{position:relative;padding:1.1cqw;display:flex;flex-direction:column;gap:.6cqw}
+  .fstep:not(:last-child)::after{
+    content:"";position:absolute;top:2.1cqw;right:-1.55cqw;width:1.4cqw;height:2px;background:var(--red);
+  }
+  .fstep:not(:last-child)::before{
+    content:"";position:absolute;top:calc(2.1cqw - 3px);right:-1.55cqw;width:7px;height:7px;border-top:2px solid var(--red);border-right:2px solid var(--red);transform:rotate(45deg);
+  }
+  .fstep .num{font-size:2.2em;color:var(--red);line-height:1}
+  .fstep h3{margin:0;font-size:1.15em}
+  .fstep p{font-size:.88em;color:#cdd2d8;line-height:1.5}
+  .stepimg{position:relative;height:15.5cqw;overflow:hidden;font-size:.8em}
+  .stepimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+  /* what we make */
+  .make{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6cqw;margin-top:.6cqw}
+  .mk{padding:1.6cqw 1.5cqw;border-top:3px solid var(--red);min-height:22cqw}
+  .mk .num{font-size:2.4em;color:var(--red);line-height:1;display:block;margin-bottom:.35em}
+  .mk h3{font-size:1.3em;margin-bottom:.9em;min-height:2.6em}
+  .mk ul{list-style:none;display:grid;gap:.55em}
+  .mk li{position:relative;background:#262a2f;border-radius:6px;font-size:.98em;color:#eef0f2;transition:background .25s,transform .25s}
+  .mk li a{display:flex;justify-content:space-between;align-items:center;padding:.5em .8em .5em 1.6em;color:inherit;text-decoration:none}
+  .mk li a::after{content:"↗";color:var(--red);font-weight:700;transition:color .25s}
+  .mk li::before{content:"";position:absolute;left:.7em;top:50%;width:.45em;height:.45em;background:var(--red);transform:translateY(-50%) rotate(45deg);transition:background .25s}
+  .mk li:hover{background:var(--red);transform:translateX(4px)}
+  .mk li:hover a::after{color:#fff}
+  .mk li:hover::before{background:#fff}
+
+  /* why we make – split screen */
+  .split{display:grid;grid-template-columns:1fr 2px 1fr;gap:3cqw;align-items:stretch;margin-top:-.4cqw}
+  .divider{background:linear-gradient(180deg,transparent,var(--red) 20%,var(--red) 80%,transparent)}
+  .half{display:flex;flex-direction:column;gap:1.2cqw}
+  .statement{padding-bottom:.4cqw}
+  .statement .num{font-size:2.6em;color:var(--red);line-height:1;display:block;margin-bottom:.15em}
+  .statement h3{font:700 1.75em/1.25 'Montserrat',sans-serif}
+  .reason{display:flex;gap:1.3cqw;align-items:flex-start;padding:1.2cqw 1.4cqw}
+  .reason .rno{flex:0 0 2.6em;height:2.6em;display:grid;place-items:center;border-radius:8px;background:var(--red);color:#fff;font-size:1.1em}
+  .reason h4{font:700 1.1em 'Montserrat',sans-serif;margin-bottom:.25em}
+  .reason p{font-size:.92em;color:#cdd2d8;line-height:1.5}
+
+  /* our machines */
+  .machines{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw;margin-top:.4cqw}
+  .mphoto{position:relative;height:12.5cqw;overflow:hidden}
+  .mphoto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .mcol h3{font:700 1.3em 'Montserrat',sans-serif;margin:.8em 0 .5em;padding-bottom:.45em;border-bottom:2px solid var(--red)}
+  .mlinks{list-style:none;display:grid;gap:.35cqw}
+  .mlinks a{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:.5em .9em;border-radius:6px;background:#22262a;color:#f1f3f5;text-decoration:none;
+    font-size:.98em;transition:background .25s,color .25s,transform .25s;
+  }
+  .mlinks a::after{content:"↗";color:var(--red);font-weight:700;transition:color .25s}
+  .mlinks a:hover{background:var(--red);transform:translateX(4px)}
+  .mlinks a:hover::after{color:#fff}
+
+  /* testimonials + client logos */
+  .tcard{display:flex;flex-direction:column;justify-content:space-between;padding:1.4cqw 1.6cqw}
+  .tq{font-size:.98em;line-height:1.6;color:#e4e7ea}
+  .tq::before{content:"“";display:block;font:800 3.2em/0.55 'Montserrat';color:var(--red);margin-bottom:.2em}
+  .who{margin-top:.9em;padding-top:.7em;border-top:1px solid var(--line)}
+  .who b{display:block;font:700 1.05em 'Montserrat',sans-serif}
+  .who small{color:var(--silver);font-size:.92em}
+  .clients{margin-top:1.5cqw}
+  .clients-label{font:700 .75em 'Montserrat',sans-serif;letter-spacing:.28em;text-transform:uppercase;color:var(--silver);margin-bottom:.6cqw}
+  .cview{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+  .cmarquee{display:flex;width:max-content;animation:cscroll 40s linear infinite}
+  .cview:hover .cmarquee{animation-play-state:paused}
+  .cl{flex:0 0 auto;width:11cqw;height:4.4cqw;margin-right:1.8cqw;background:#fff;border-radius:8px;display:grid;place-items:center;padding:.5cqw .9cqw}
+  .cl img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+  .cl.empty{background:#22262a;border:1.5px dashed #3b4047;color:#7d848c;font-size:.8em;text-align:center}
+  .cl.empty::after{content:attr(data-n)}
+  @keyframes cscroll{to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.cmarquee{animation:none}}
+
+  /* process steps */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6cqw}
+  .step .num{font-size:3em;color:var(--red);opacity:.9;line-height:1}
+
+  /* testimonial */
+  .quote{font-size:1.1em}
+  .quote::before{content:"“";display:block;font:800 4em/0.6 'Montserrat';color:var(--red)}
+
+  /* CTA */
+  .cta{display:grid;place-items:center;text-align:center;height:calc(100% - 4cqw);align-content:center;gap:1.6cqw}
+  .cta h2{font-size:4em;margin:0}
+  .btns{display:flex;gap:1.2cqw;flex-wrap:wrap;justify-content:center;margin-top:1cqw}
+  .btn{padding:.9em 1.8em;border-radius:8px;font:700 1em 'Montserrat';letter-spacing:.04em;text-decoration:none;border:1.5px solid var(--red);color:#fff;transition:.25s}
+  .btn.primary{background:var(--red)}
+  .btn:hover{background:#fff;color:var(--red);border-color:#fff}
+
+  /* ---------- CONTROLS ---------- */
+  .arrow{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:10;
+    width:3.4cqw;height:3.4cqw;min-width:34px;min-height:34px;border-radius:50%;
+    display:grid;place-items:center;background:rgba(10,11,13,.7);border:1px solid #3a3f45;
+    transition:.25s;
+  }
+  .arrow svg{width:45%;height:45%}
+  .arrow:hover:not(:disabled){background:var(--red);border-color:var(--red)}
+  .arrow:disabled{opacity:.25;cursor:default}
+  #prev{left:1.2cqw}
+  #next{right:1.2cqw}
+  .bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:#0d0e10;z-index:10}
+  .bar i{display:block;height:100%;width:10%;background:var(--red);transition:width .8s cubic-bezier(.65,.05,.25,1)}
+  .counter{position:absolute;right:2.4cqw;bottom:1.1cqw;z-index:10;font:700 .95cqw 'Montserrat';color:var(--silver);letter-spacing:.1em}
+  .counter b{color:#fff}
+  .hint{position:absolute;left:2.4cqw;bottom:1.1cqw;z-index:10;font-size:.85cqw;color:#6b7178}
+
+  /* small screens: let header scroll, allow slide scroll */
+  @media (max-width:900px){
+    :root{--hh:56px}
+    .slide{overflow-y:auto}
+    .hint{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img src="images/unitech-logo.png" alt="UniTech" onerror="this.replaceWith(document.createTextNode('UniTech'))">
+  </div>
+  <nav id="nav"></nav>
+  <button id="fsBtn" title="Full screen (F)" aria-label="Full screen">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+  </button>
+</header>
+
+<main>
+  <div class="stage" id="stage">
+
+    <div class="track" id="track">
+
+      <!-- ===== 01 ABOUT US ===== -->
+      <section class="slide">
+        <div class="about">
+          <div>
+            <div class="eyebrow reveal" style="--d:0">About Us</div>
+            <h2 class="reveal" style="--d:1">Duratech<br>Automation <em>/ UniTech</em></h2>
+            <div class="stats">
+              <div class="stat reveal" style="--d:2"><b class="num">2006</b><small>Founded by Mr. Sandesh Tere<br>(as Universal Technologies)</small></div>
+              <div class="stat reveal" style="--d:3"><b class="num">14+</b><small>Years of technology upgrades</small></div>
+              <div class="stat reveal" style="--d:4"><b class="num">Vasai</b><small>State-of-the-art manufacturing setup,<br>near Mumbai</small></div>
+            </div>
+            <div class="logos reveal" style="--d:5">
+              <span class="logo mayax"><img src="images/maya.png" alt="MAYAX" onerror="this.replaceWith(document.createTextNode('MAYAX'))"></span>
+              <span class="logo mii"><img src="images/made_in_india.png" alt="Made in India" onerror="this.replaceWith(document.createTextNode('Made in India'))"></span>
+            </div>
+          </div>
+
+          <div class="about-text">
+            <div class="cats reveal" style="--d:1">
+              <div class="cat">
+                <svg viewBox="0 0 24 24"><path d="M3 5h18v10H3z"/><path d="M8 15v5h8v-5"/><path d="M7 9h10"/></svg>
+                <span>Screen Printing Machines</span>
+              </div>
+              <div class="cat">
+                <svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10"/><path d="M3 3l3 3M21 3l-3 3M3 21l3-3M21 21l-3-3"/></svg>
+                <span>Pre-Press Machines</span>
+              </div>
+              <div class="cat">
+                <svg viewBox="0 0 24 24"><path d="M8 3c-2 3 2 4 0 7M13 3c-2 3 2 4 0 7M18 3c-2 3 2 4 0 7"/><path d="M3 15h18M3 20h18"/></svg>
+                <span>Conveyor Dryers</span>
+              </div>
+              <div class="cat">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
+                <span>Accessories</span>
+              </div>
+            </div>
+
+            <p class="lead reveal" style="--d:2">Duratech Automation Pvt. Ltd. is a professional manufacturer of screen printing equipment under the brand name <b>UniTech</b>.</p>
+
+            <div class="points">
+              <div class="pt reveal" style="--d:3"><i class="pn num">01</i><div><h4>Advanced manufacturing</h4><p>A state-of-the-art facility in Vasai, near Mumbai, operating since 2006.</p></div></div>
+              <div class="pt reveal" style="--d:4"><i class="pn num">02</i><div><h4>Engineered for reliability</h4><p>Continuous R&amp;D, technological innovation and a unique self-diagnostic feature keep production running.</p></div></div>
+              <div class="pt reveal" style="--d:5"><i class="pn num">03</i><div><h4>Customer-first support</h4><p>Value engineering, higher productivity, reduced downtime and dedicated service support for customers worldwide.</p></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 02 OUR HISTORY ===== -->
+      <section class="slide">
+        <div class="history">
+          <div>
+            <div class="eyebrow reveal" style="--d:0">Our History</div>
+            <h2 class="reveal" style="--d:1">Empowering<br><em>Screen Printers</em></h2>
+            <p class="since reveal" style="--d:1">Since <span class="num">2006</span></p>
+
+            <div class="kpis reveal" style="--d:2">
+              <div class="kpi"><b class="num">500+</b><small>Customers</small></div>
+              <div class="kpi"><b class="num">3000+</b><small>Machines</small></div>
+              <div class="kpi"><b class="num">25+</b><small>Applications</small></div>
+              <div class="kpi"><b class="num">∞</b><small>Infinite Smiles</small></div>
+            </div>
+
+            <div class="patent reveal" style="--d:3">
+              <small>Worldwide granted</small>
+              <span class="tag">PATENT</span>
+              <small>on</small>
+              <p><b>UNISTRETCH</b> – Ultimate Stretching device</p>
+            </div>
+          </div>
+
+          <div class="milestones reveal" style="--d:2">
+            <div class="ms-head">Innovation Milestones</div>
+            <div class="ms"><b class="num">2006</b><span><strong>ECOMATIC</strong> – The most economical screen printer launched</span></div>
+            <div class="ms"><b class="num">2007</b><span><strong>SDS</strong> – Self diagnostic system in every machine</span></div>
+            <div class="ms"><b class="num">2008</b><span><strong>Biggest</strong> – Automatic emulsion coater, frame size 166" × 166"</span></div>
+            <div class="ms"><b class="num">2008</b><span><strong>Biggest</strong> – Screen stretching, frame size 332" × 332"</span></div>
+            <div class="ms"><b class="num">2009</b><span><strong>AUTO TAKE SYSTEM</strong> on printing machines</span></div>
+            <div class="ms"><b class="num">2010</b><span><strong>EASIPRINT</strong> – Two post pillar screen printer</span></div>
+            <div class="ms"><b class="num">2012</b><span><strong>TEXPRINT ALL in ONE</strong> – Economical T-shirt / cap printer</span></div>
+            <div class="ms"><b class="num">2013</b><span><strong>Machines</strong> for optical electronics, Hydrogen fuel cell</span></div>
+            <div class="ms"><b class="num">2014</b><span><strong>ROLOMATIC</strong> – Reel to reel screen printer</span></div>
+            <div class="ms"><b class="num">2016</b><span><strong>Printed electronics lab</strong> at IIT Kanpur</span></div>
+            <div class="ms"><b class="num">2018</b><span><strong>UNIWASH</strong> – Fully automatic screen washer</span></div>
+            <div class="ms"><b class="num">2019</b><span><strong>UV LED</strong> – Screen exposing with frame dryer</span></div>
+            <div class="ms"><b class="num">2021</b><span><strong>COOL SKIN TECHNOLOGY</strong> – Fasdry high temp. dryer</span></div>
+            <div class="ms hot"><b class="num">2022</b><span><strong>UNISTRETCH</strong> – Worldwide Patent granted</span></div>
+            <div class="ms"><b class="num">2023</b><span><strong>RI-90</strong> – Indexing table screen printer with vacuum tables</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 03 OUR LOCATION ===== -->
+      <section class="slide">
+        <div class="eyebrow reveal">Our Location</div>
+        <h2 class="reveal" style="--d:1">Find <em>Us</em></h2>
+        <div class="cols" style="height:calc(100% - 13cqw);grid-template-columns:38% 1fr">
+          <div class="card loc reveal" style="--d:2">
+            <h3>UniTech – Duratech Automation</h3>
+            <div class="info"><small>Address</small>
+              <p>Plot No. 78 &amp; 79, VVCMC Industrial Area,<br>Umele Road, Vasai West, Dist. Palghar,<br>Maharashtra, India – 401 207</p></div>
+            <div class="info"><small>Phone</small>
+              <p><a href="tel:+917888028376">+91 788 802 8376</a></p></div>
+            <div class="info"><small>Email</small>
+              <p><a href="mailto:info@unitech-india.net">info@unitech-india.net</a></p></div>
+            <a class="btn primary" style="display:inline-block;margin-top:.6em" target="_blank" rel="noopener"
+               href="https://www.google.com/maps/place/Vasai+Municipal+Industrial+Estate/@19.3569688,72.8164669,17z/data=!3m1!4b1!4m6!3m5!1s0x3be7ae8876aaaaab:0x13ce0f476cf82b37!8m2!3d19.3569688!4d72.8164669!16s%2Fg%2F11txv22vx8">Open in Google Maps</a>
+          </div>
+          <div class="reveal" style="--d:3;height:100%">
+            <iframe title="UniTech location – Vasai Municipal Industrial Estate" loading="lazy" allowfullscreen
+              style="width:100%;height:100%;border:0;border-radius:12px;filter:invert(.9) hue-rotate(180deg) saturate(.7)"
+              src="https://www.google.com/maps?q=19.3569688,72.8164669&z=17&output=embed"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 04 HOW WE MAKE MACHINES ===== -->
+      <section class="slide">
+        <div class="eyebrow reveal">How We Make Machines</div>
+        <h2 class="reveal" style="--d:1">From Design to <em>Delivery</em></h2>
+        <!-- Put each step photo in the images/ folder with these names (jpg): step1-designing, step2-manufacturing, step3-packing, step4-delivery, step5-installation -->
+        <div class="flow">
+          <div class="card fstep reveal" style="--d:2">
+            <span class="num">01</span>
+            <h3>Designing</h3>
+            <div class="photo stepimg"><span>Designing photo</span><img src="images/designimage.png" alt="Designing" onerror="this.remove()"></div>
+            <p>Our R&amp;D team turns customer needs into precise, production-ready machine designs.</p>
+          </div>
+          <div class="card fstep reveal" style="--d:3">
+            <span class="num">02</span>
+            <h3>Manufacturing</h3>
+            <div class="photo stepimg"><span>Manufacturing photo</span><img src="images/step2-manufacturing.jpg" alt="Manufacturing" onerror="this.remove()"></div>
+            <p>Machines are built at our Vasai facility with strict quality checks at every stage.</p>
+          </div>
+          <div class="card fstep reveal" style="--d:4">
+            <span class="num">03</span>
+            <h3>Packing</h3>
+            <div class="photo stepimg"><span>Packing photo</span><img src="images/packagingimage.png" alt="Packing" onerror="this.remove()"></div>
+            <p>Every machine is carefully packed to reach the customer safe and ready to run.</p>
+          </div>
+          <div class="card fstep reveal" style="--d:5">
+            <span class="num">04</span>
+            <h3>Delivery</h3>
+            <div class="photo stepimg"><span>Delivery photo</span><img src="images/deliveryimage.png" alt="Delivery" onerror="this.remove()"></div>
+            <p>On-time dispatch and delivery to customers across India and around the world.</p>
+          </div>
+          <div class="card fstep reveal" style="--d:6">
+            <span class="num">05</span>
+            <h3>Installation</h3>
+            <div class="photo stepimg"><span>Installation photo</span><img src="images/step5-installation.jpg" alt="Installation" onerror="this.remove()"></div>
+            <p>Our team installs and commissions the machine and trains your operators on site.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 05 WHAT WE MAKE ===== -->
+      <section class="slide">
+        <div class="eyebrow reveal">What We Make</div>
+        <h2 class="reveal" style="--d:1">Our <em>Products</em></h2>
+        <!-- Every product name is a link to its page on www.unitech-india.net (opens in a new tab). -->
+        <div class="make">
+          <div class="card mk reveal" style="--d:2">
+            <span class="num">01</span>
+            <h3>Screen Printing Machines</h3>
+            <ul>
+              <li><a href="https://www.unitech-india.net/products/easiprint-m-series" target="_blank" rel="noopener">Easiprint M Series</a></li>
+              <li><a href="https://www.unitech-india.net/products/easiprint-m2-series" target="_blank" rel="noopener">Easiprint M2 Series</a></li>
+              <li><a href="https://www.unitech-india.net/products/Duraprint" target="_blank" rel="noopener">Duraprint</a></li>
+              <li><a href="https://www.unitech-india.net/products/vision-print" target="_blank" rel="noopener">Visionprint</a></li>
+            </ul>
+          </div>
+          <div class="card mk reveal" style="--d:3">
+            <span class="num">02</span>
+            <h3>Pre-Press Machines</h3>
+            <ul>
+              <li><a href="https://www.unitech-india.net/products/unistretch" target="_blank" rel="noopener">Unistretch</a></li>
+              <li><a href="https://www.unitech-india.net/products/Pneustretch" target="_blank" rel="noopener">Pneustretch</a></li>
+              <li><a href="https://www.unitech-india.net/products/Autoexpose-cum-glowdry" target="_blank" rel="noopener">ACG – UV LED</a></li>
+              <li><a href="https://www.unitech-india.net/products/Evencoat" target="_blank" rel="noopener">Evencoat</a></li>
+              <li><a href="https://www.unitech-india.net/products/Uniwash" target="_blank" rel="noopener">Uniwash D &amp; R Series</a></li>
+              <li><a href="https://www.unitech-india.net/products/Washbooth" target="_blank" rel="noopener">Washbooth</a></li>
+            </ul>
+          </div>
+          <div class="card mk reveal" style="--d:4">
+            <span class="num">03</span>
+            <h3>Dryers</h3>
+            <ul>
+              <li><a href="https://www.unitech-india.net/products/Glowdry" target="_blank" rel="noopener">Glowdry</a></li>
+              <li><a href="https://www.unitech-india.net/products/Fasdry-Ht-Circulation" target="_blank" rel="noopener">Fasdry HT &amp; CIR</a></li>
+            </ul>
+          </div>
+          <div class="card mk reveal" style="--d:5">
+            <span class="num">04</span>
+            <h3>Accessories</h3>
+            <ul>
+              <li><a href="https://www.unitech-india.net/products/Sharpedge" target="_blank" rel="noopener">Sharpedge</a></li>
+              <li><a href="https://www.unitech-india.net/products/Tensorite" target="_blank" rel="noopener">Tension Meter</a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 06 WHY WE MAKE ===== -->
+      <section class="slide">
+        <div class="eyebrow reveal">Why We Make</div>
+        <h2 class="reveal" style="--d:1">Our <em>Purpose</em></h2>
+        <!-- Split screen: left half = Statement 1, right half = Statement 2. Each has 2 reason cards. -->
+        <div class="split">
+
+          <div class="half">
+            <div class="statement reveal" style="--d:2">
+              <span class="num">01</span>
+              <h3>We make machines that keep your production running.</h3>
+            </div>
+            <div class="card reason reveal" style="--d:3">
+              <b class="rno num">A</b>
+              <div><h4>Reliability first</h4><p>Our self-diagnostic feature ensures persistent operation throughout production time, with reduced downtime.</p></div>
+            </div>
+            <div class="card reason reveal" style="--d:4">
+              <b class="rno num">B</b>
+              <div><h4>Higher productivity</h4><p>Every machine is engineered to improve productivity and add value to the customer's production process.</p></div>
+            </div>
+          </div>
+
+          <div class="divider reveal" style="--d:2"></div>
+
+          <div class="half">
+            <div class="statement reveal" style="--d:3">
+              <span class="num">02</span>
+              <h3>We make advanced technology affordable.</h3>
+            </div>
+            <div class="card reason reveal" style="--d:4">
+              <b class="rno num">A</b>
+              <div><h4>Value engineering</h4><p>We provide the most competitive products without compromising on quality, reliability or durability.</p></div>
+            </div>
+            <div class="card reason reveal" style="--d:5">
+              <b class="rno num">B</b>
+              <div><h4>Customer-centric approach</h4><p>We work closely with every customer, backed by in-house R&amp;D and distinguished service support.</p></div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===== 07 OUR MACHINES ===== -->
+      <section class="slide">
+        <div class="eyebrow reveal">Our Machines</div>
+        <h2 class="reveal" style="--d:1">Built to <em>Perform</em></h2>
+        <!-- Photos go in images/ as: machine-printing.jpg, machine-prepress.jpg, machine-dryer.jpg
+             Every machine name is a link to its page on www.unitech-india.net (opens in a new tab). -->
+        <div class="machines">
+
+          <div class="mcol reveal" style="--d:2">
+            <div class="photo mphoto"><span>Printing machine photo</span><img src="images/EASIPRINT.png" alt="Screen printing machine" onerror="this.remove()"></div>
+            <h3>Screen Printing Machines</h3>
+            <ul class="mlinks">
+              <li><a href="https://www.unitech-india.net/products/easiprint-m-series" target="_blank" rel="noopener">Easiprint M Series</a></li>
+              <li><a href="https://www.unitech-india.net/products/easiprint-m2-series" target="_blank" rel="noopener">Easiprint M2 Series</a></li>
+              <li><a href="https://www.unitech-india.net/products/Duraprint" target="_blank" rel="noopener">Duraprint</a></li>
+              <li><a href="https://www.unitech-india.net/products/vision-print" target="_blank" rel="noopener">Visionprint</a></li>
+              <!-- Also on your website – remove the comment marks to show them:
+              <li><a href="https://www.unitech-india.net/products/Auto-Take-off-System" target="_blank" rel="noopener">Auto Take Off System</a></li>
+              <li><a href="https://www.unitech-india.net/products/Texprint-Shuttle" target="_blank" rel="noopener">RI90</a></li>
+              <li><a href="https://www.unitech-india.net/products/texprint" target="_blank" rel="noopener">Texprint</a></li>
+              -->
+            </ul>
+          </div>
+
+          <div class="mcol reveal" style="--d:3">
+            <div class="photo mphoto"><span>Pre-press machine photo</span><img src="images/unistretch.png" alt="Pre-press machine" onerror="this.remove()"></div>
+            <h3>Pre-Press Machines</h3>
+            <ul class="mlinks">
+              <li><a href="https://www.unitech-india.net/products/unistretch" target="_blank" rel="noopener">Unistretch</a></li>
+              <li><a href="https://www.unitech-india.net/products/Pneustretch" target="_blank" rel="noopener">Pneustretch</a></li>
+              <li><a href="https://www.unitech-india.net/products/Autoexpose-cum-glowdry" target="_blank" rel="noopener">ACG – UV LED</a></li>
+              <li><a href="https://www.unitech-india.net/products/Evencoat" target="_blank" rel="noopener">Evencoat</a></li>
+              <li><a href="https://www.unitech-india.net/products/Uniwash" target="_blank" rel="noopener">Uniwash D &amp; R Series</a></li>
+              <li><a href="https://www.unitech-india.net/products/Washbooth" target="_blank" rel="noopener">Washbooth</a></li>
+            </ul>
+          </div>
+
+          <div class="mcol reveal" style="--d:4">
+            <div class="photo mphoto"><span>Dryer photo</span><img src="images/FASDRY.png" alt="Dryer" onerror="this.remove()"></div>
+            <h3>Dryers</h3>
+            <ul class="mlinks">
+              <li><a href="https://www.unitech-india.net/products/Glowdry" target="_blank" rel="noopener">Glowdry</a></li>
+              <li><a href="https://www.unitech-india.net/products/Fasdry-Ht-Circulation" target="_blank" rel="noopener">Fasdry HT &amp; CIR</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===== 08 OUR FACTORY ===== -->
+      <section class="slide">
+        <div class="eyebrow reveal">Our Factory</div>
+        <h2 class="reveal" style="--d:1">Inside <em>UniTech</em></h2>
+        <div class="photo reveal" style="--d:2;width:64cqw;aspect-ratio:16/9;margin:0 auto;position:relative;overflow:hidden"><span>Factory photo (16:9)</span><img src="images/factory.jpeg" alt="UniTech factory" style="position:absolute;inset:0" onerror="this.remove()"></div>
+      </section>
+
+      <!-- ===== 09 TESTIMONIALS ===== -->
+      <section class="slide">
+        <div class="eyebrow reveal">Testimonials</div>
+        <h2 class="reveal" style="--d:1">What Customers <em>Say</em></h2>
+
+        <div class="grid3">
+          <div class="card tcard reveal" style="--d:2">
+            <p class="tq">Duratech helped improve our screen reliability with their LED exposure unit and customized the machine perfectly for our small screen room. Delivered within a good timeframe and at a fair cost.</p>
+            <div class="who"><b>Warrick Wentworth</b><small>Chennai, India</small></div>
+          </div>
+          <div class="card tcard reveal" style="--d:3">
+            <p class="tq">Using Unitech machines and service for 10+ years. Quality parts, strong technical support, expert guidance, and world-class technology at an economical price.</p>
+            <div class="who"><b>Moksh Enterprises</b><small>Mumbai, India</small></div>
+          </div>
+          <div class="card tcard reveal" style="--d:4">
+            <p class="tq">Most of the UNITECH machines fitted with SDS ie self diagnostic systems and great online support team.</p>
+            <div class="who"><b>Shriram Enterprises</b><small>Mumbai, India</small></div>
+          </div>
+        </div>
+
+        <!-- Client logos: save 10 logos in images/ as client1.png ... client10.png. They scroll continuously (pauses on hover). -->
+        <div class="clients reveal" style="--d:5">
+          <div class="clients-label">Our Star Customers</div>
+          <div class="cview">
+            <div class="cmarquee">
+              <div class="cl" data-n="Client logo 1"><img src="images/logo-AGI-glas.png" alt="Client 1" onerror="this.parentNode.classList.add('empty');this.remove()"></div>
+              <div class="cl" data-n="Client logo 2"><img src="images/logo-thermax.png" alt="Client 2" onerror="this.parentNode.classList.add('empty');this.remove()"></div>
+              <div class="cl" data-n="Client logo 3"><img src="images/logo-fitwel-gasket.png" alt="Client 3" onerror="this.parentNode.classList.add('empty');this.remove()"></div>
+              <div class="cl" data-n="Client logo 4"><img src="images/logo-iit-kanpur.png" alt="Client 4" onerror="this.parentNode.classList.add('empty');this.remove()"></div>
+              <div class="cl" data-n="Client logo 5"><img src="images/logo-J-J.png" alt="Client 5" onerror="this.parentNode.classList.add('empty');this.remove()"></div>
+              <div class="cl" data-n="Client logo 6"><img src="images/logo-mulder.png" alt="Client 6" onerror="this.parentNode.classList.add('empty');this.remove()"></div>
+              <div class="cl" data-n="Client logo 7"><img src="images/logo-polyhose.png" alt="Client 7" onerror="this.parentNode.classList.add('empty');this.remove()"></div>
+              <div class="cl" data-n="Client logo 8"><img src="images/logo-saint-gobain.png" alt="Client 8" onerror="this.parentNode.classList.add('empty');this.remove()"></div>
+              <div class="cl" data-n="Client logo 9"><img src="images/logo-shahi (1).png" alt="Client 9" onerror="this.parentNode.classList.add('empty');this.remove()"></div>
+              <div class="cl" data-n="Client logo 10"><img src="images/logo-talbros.png" alt="Client 10" onerror="this.parentNode.classList.add('empty');this.remove()"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 10 LET'S CONNECT ===== -->
+      <section class="slide">
+        <div class="cta">
+          <div class="eyebrow reveal" style="justify-content:center">Let's Connect</div>
+          <h2 class="reveal" style="--d:1">Let's Build Your <em>Production</em> Together</h2>
+          <p class="reveal" style="--d:2;max-width:46em">Add your closing line here.</p>
+          <div class="btns reveal" style="--d:3">
+            <a class="btn primary" href="tel:+910000000000">Call Us</a>
+            <a class="btn" href="mailto:info@example.com">Email Us</a>
+            <a class="btn" href="http://www.unitech-india.net" target="_blank" rel="noopener">www.unitech-india.net</a>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /track -->
+
+    <button class="arrow" id="prev" aria-label="Previous slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4l-8 8 8 8"/></svg>
+    </button>
+    <button class="arrow" id="next" aria-label="Next slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4l8 8-8 8"/></svg>
+    </button>
+
+    <div class="hint">← → arrow keys &nbsp;·&nbsp; F full screen</div>
+    <div class="counter" id="counter"><b>01</b> / 10</div>
+    <div class="bar"><i id="progress"></i></div>
+  </div>
+</main>
+
+<script>
+  const titles = ["About Us","Our History","Our Location","How We Make Machines","What We Make",
+                  "Why We Make","Our Machines","Our Factory","Testimonials","Let's Connect"];
+  const track  = document.getElementById('track');
+  const slides = [...track.children];
+  const nav    = document.getElementById('nav');
+  const prev   = document.getElementById('prev');
+  const next   = document.getElementById('next');
+  const counter= document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const total  = slides.length;
+  let index = 0;
+
+  // build header menu
+  titles.forEach((t,i)=>{
+    const b = document.createElement('button');
+    b.innerHTML = `<span>${String(i+1).padStart(2,'0')}</span>${t}`;
+    b.addEventListener('click',()=>goTo(i));
+    nav.appendChild(b);
+  });
+  const navBtns = [...nav.children];
+
+  function goTo(i){
+    index = Math.max(0, Math.min(total-1, i));
+    track.style.transform = `translateX(-${index*100}%)`;
+    slides.forEach((s,k)=>s.classList.toggle('active',k===index));
+    navBtns.forEach((b,k)=>b.classList.toggle('active',k===index));
+    navBtns[index].scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+    prev.disabled = index===0;
+    next.disabled = index===total-1;
+    counter.innerHTML = `<b>${String(index+1).padStart(2,'0')}</b> / ${total}`;
+    progress.style.width = ((index+1)/total*100)+'%';
+    history.replaceState(null,'','#'+(index+1));
+  }
+
+  prev.addEventListener('click',()=>goTo(index-1));
+  next.addEventListener('click',()=>goTo(index+1));
+
+  // keyboard
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='PageDown'){goTo(index+1)}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){goTo(index-1)}
+    else if(e.key==='Home'){goTo(0)}
+    else if(e.key==='End'){goTo(total-1)}
+    else if(e.key==='f'||e.key==='F'){toggleFS()}
+  });
+
+  // touch swipe
+  let sx=null;
+  const stage=document.getElementById('stage');
+  stage.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+  stage.addEventListener('touchend',e=>{
+    if(sx===null) return;
+    const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>50) goTo(index+(dx<0?1:-1));
+    sx=null;
+  });
+
+  // full screen
+  function toggleFS(){
+    if(!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+    else document.exitFullscreen?.();
+  }
+  document.getElementById('fsBtn').addEventListener('click',toggleFS);
+
+  // seamless logo loop: duplicate the logos once
+  document.querySelectorAll('.cmarquee').forEach(m=>{ m.innerHTML += m.innerHTML; });
+
+  // open on #n if present
+  const start = parseInt(location.hash.replace('#',''),10);
+  goTo(!isNaN(start) ? start-1 : 0);
+</script>
+</body>
+</html>
