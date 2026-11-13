@@ -399,8 +399,13 @@
   .pcard::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 120%,rgba(225,11,31,.16),transparent 60%);pointer-events:none}
   .plabel{font-family:var(--f-body);font-weight:500;font-size:.8em;letter-spacing:.28em;text-transform:uppercase;color:var(--red)}
   .pcard .plabel{position:absolute;left:1.4cqw;top:1cqw}
-  .maya-logo{position:relative;height:8.5cqw;display:grid;place-items:center;margin-top:.8cqw}
-  .maya-logo img{height:100%;width:auto;max-width:100%;object-fit:contain;position:relative;z-index:1;background:#fff;border-radius:10px;padding:.5cqw 1.2cqw}
+  /* .maya-logo{position:relative;height:8.5cqw;display:grid;place-items:center;margin-top:.8cqw}
+  .maya-logo img{height:100%;width:auto;max-width:100%;object-fit:contain;position:relative;z-index:1;background:#fff;border-radius:10px;padding:.5cqw 1.2cqw} */
+  /* .maya-logo{position:relative;height:8.5cqw;display:grid;place-items:center;margin-top:.8cqw}
+  .maya-logo img{height:auto;width:auto;max-height:100%;max-width:100%;object-fit:contain;position:relative;z-index:1;background:#fff;border-radius:10px;padding:0}
+  .maya-fallback{position:absolute;font-family:var(--f-head);font-weight:800;font-size:3.6em;letter-spacing:.08em;color:#fff} */
+  .maya-logo{position:relative;height:8.5cqw;width:100%;display:grid;place-items:center;margin-top:.8cqw;min-width:0;overflow:hidden}
+  .maya-logo img{display:block;width:100%;height:100%;min-width:0;min-height:0;object-fit:contain;object-position:center;position:relative;z-index:1;background:#fff;border-radius:10px;padding:0;box-sizing:border-box}
   .maya-fallback{position:absolute;font-family:var(--f-head);font-weight:800;font-size:3.6em;letter-spacing:.08em;color:#fff}
   .shloka{font-family:'Noto Sans Devanagari','Mangal','Nirmala UI',sans-serif;font-weight:700;font-size:3.5em;line-height:1.35;color:#fff;text-align:center;margin-top:.8cqw}
   .translit{font-family:var(--f-body);font-weight:500;font-size:.95em;letter-spacing:.12em;color:var(--silver)}
@@ -751,7 +756,7 @@
           <!-- PRINCIPLE 1: MAYA logo. Save the logo as images/maya.png (transparent or white background). If missing, the word MAYA shows instead. -->
           <div class="pcard reveal" style="--d:2">
             <span class="plabel">Principle 01</span>
-            <div class="maya-logo"><b class="maya-fallback">MAYA</b><img src="images/mayalogo.png" alt="MAYA" onerror="this.remove()"></div>
+            <div class="maya-logo"><b class="maya-fallback">MAYA</b><img src="images/maya_logo1.png" alt="MAYA" onerror="this.remove()"></div>
           </div>
           <!-- PRINCIPLE 2: Sanskrit shloka in Devanagari -->
           <div class="pcard reveal" style="--d:3">
@@ -774,7 +779,7 @@
             <div class="pdot"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></div>
             <span class="pno num">02</span>
             <h3>Manufacturing</h3>
-            <div class="photo pimg"><span>Manufacturing photo</span><img src="images/step2-manufacturing.jpg" alt="Manufacturing" onerror="this.remove()"></div>
+            <div class="photo pimg"><span>Manufacturing photo</span><img src="images/manifacturing.png" alt="Manufacturing" onerror="this.remove()"></div>
           </div>
           <div class="pstep" style="--i:2">
             <div class="pdot"><svg viewBox="0 0 24 24"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></div>
@@ -792,7 +797,7 @@
             <div class="pdot"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/><circle cx="12" cy="12" r="9"/></svg></div>
             <span class="pno num">05</span>
             <h3>Installation</h3>
-            <div class="photo pimg"><span>Installation photo</span><img src="images/step5-installation.jpg" alt="Installation" onerror="this.remove()"></div>
+            <div class="photo pimg"><span>Installation photo</span><img src="images/installation.png" alt="Installation" onerror="this.remove()"></div>
           </div>
         </div>
       </section>
@@ -810,7 +815,7 @@
               <img src="images/patent1.png" alt="Patent certificate 1">
               <i class="cert-shine"></i>
             </div>
-            <figcaption><b class="num">01</b><span>Patent Certificate</span></figcaption>
+            <!-- <figcaption><b class="num">01</b><span>Patent Certificate</span></figcaption> -->
           </figure>
           <figure class="cert reveal" style="--d:3" data-n="2">
             <div class="cert-frame photo">
@@ -818,7 +823,7 @@
               <img src ="images/patent2.png" alt="Patent certificate 2">
               <i class="cert-shine"></i>
             </div>
-            <figcaption><b class="num">02</b><span>Patent Certificate</span></figcaption>
+            <!-- <figcaption><b class="num">02</b><span>Patent Certificate</span></figcaption> -->
           </figure>
           <figure class="cert reveal" style="--d:4" data-n="3">
             <div class="cert-frame photo">
@@ -826,7 +831,7 @@
               <img src="images/patent3.png" alt="Patent certificate 3">
               <i class="cert-shine"></i>
             </div>
-            <figcaption><b class="num">03</b><span>Patent Certificate</span></figcaption>
+            <!-- <figcaption><b class="num">03</b><span>Patent Certificate</span></figcaption> -->
           </figure>
           <figure class="cert reveal" style="--d:5" data-n="4">
             <div class="cert-frame photo">
@@ -834,7 +839,7 @@
               <img src="images/patent4.png" alt="Patent certificate 4">
               <i class="cert-shine"></i>
             </div>
-            <figcaption><b class="num">04</b><span>Patent Certificate</span></figcaption>
+            <!-- <figcaption><b class="num">04</b><span>Patent Certificate</span></figcaption> -->
           </figure>
         </div>
       </section>
@@ -886,8 +891,8 @@
           <h2 class="reveal" style="--d:1">Let's Build Your <em>Production</em> Together</h2>
           <p class="reveal" style="--d:2;max-width:46em">Add your closing line here.</p>
           <div class="btns reveal" style="--d:3">
-            <a class="btn primary" href="tel:+910000000000">Call Us</a>
-            <a class="btn" href="mailto:info@example.com">Email Us</a>
+            <a class="btn primary" href="tel:+917720041836">Call Us</a>
+            <a class="btn" href="mailto:info@unitech-india.net">Email Us</a>
             <a class="btn" href="http://www.unitech-india.net" target="_blank" rel="noopener">www.unitech-india.net</a>
           </div>
         </div>
