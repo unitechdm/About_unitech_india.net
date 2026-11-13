@@ -6,7 +6,7 @@
 <title>UniTech – About Us</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;800&family=Noto+Sans+Devanagari:wght@700&display=swap" rel="stylesheet">
 <style>
   :root{
     --red:#E10B1F;          /* Precision Red */
@@ -23,6 +23,8 @@
     --logo-bg:#fff;         /* tile behind the logo. Use "transparent" if your logo already looks good on dark */
     --logo-pad:3px 8px;     /* space inside that tile (make it 0 if you want the logo edge-to-edge) */
     --video-fit:contain;    /* contain = whole video always visible | cover = fills the area (edges may be cropped) */
+    --factory-fit:cover;    /* factory photo: cover = fills the whole slide (may trim edges) | contain = whole photo visible */
+    --factory-pos:center;   /* which part stays visible when trimmed: center | top | bottom | left | right */
     /* =============================================================== */
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -181,6 +183,19 @@
     .hero-slide.active .vid-wrap,.hero-slide.active .sep,.hero-slide.active .hc{animation:none!important}
     .hero-slide .hc{opacity:1}.hero-slide .sep{opacity:1;transform:none}
   }
+
+  /* ---------- SLIDE 2: OUR FACTORY (full-screen photo) ---------- */
+  .slide.factory-slide{padding:0;background:#0d0f12}
+  .slide.factory-slide::before{display:none}
+  .slide.factory-slide>.fimg{position:absolute;inset:0;border:0;border-radius:0;overflow:hidden;font-size:1.15em;line-height:1.6}
+  .fimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:var(--factory-fit);object-position:var(--factory-pos);border-radius:0;will-change:transform}
+  .factory-slide.active .fimg img{animation:kenburns 14s ease-out forwards}
+  @keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.07)}}
+  @media (prefers-reduced-motion:reduce){.factory-slide.active .fimg img{animation:none}}
+  .slide.factory-slide>.fshade{position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,rgba(8,9,11,.84) 0,rgba(8,9,11,.5) 22%,rgba(8,9,11,0) 46%),
+               linear-gradient(0deg,rgba(8,9,11,.6) 0,rgba(8,9,11,0) 18%)}
+  .slide.factory-slide>.fcap{position:absolute;left:0;top:0;z-index:2;padding:5.2cqw 7cqw 0}
 
   /* ---------- GENERIC LAYOUT HELPERS ---------- */
   .cols{display:grid;grid-template-columns:1fr 1fr;gap:3cqw;align-items:center;height:calc(100% - 9cqw)}
@@ -350,6 +365,151 @@
     .slide{overflow-y:auto}
     .hint{display:none}
   }
+
+
+  /* ---------- WHY WE MAKE: reason images with animation ---------- */
+  .why-slide .split{gap:2.4cqw;margin-top:-.8cqw}
+  .why-slide .half{gap:1cqw}
+  .why-slide .statement{padding-bottom:0}
+  .why-slide .statement .num{font-size:1.9em;margin-bottom:.05em}
+  .why-slide .statement h3{font-size:1.6em}
+  .why-slide .statement em{font-style:normal;color:var(--red)}
+  .why-slide .reason{padding:.9cqw 1.2cqw;gap:1cqw}
+  .why-slide .reason .rno{flex-basis:2.1em;height:2.1em;font-size:.95em}
+  .why-slide .reason h4{font-size:1em;margin-bottom:.1em}
+  .why-slide .reason p{font-size:.9em;line-height:1.45}
+  .wy{position:relative;overflow:hidden;flex:0 0 auto;margin-top:auto;height:14.5cqw;border-radius:12px;border:1.5px solid var(--line);font-size:.9em}
+  .wy img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:0;transform:scale(1.02)}
+  .why-slide.active .wy img{animation:wyzoom 12s ease-in-out infinite alternate}
+  @keyframes wyzoom{from{transform:scale(1.02) translate3d(0,0,0)}to{transform:scale(1.12) translate3d(-1.2%,-1%,0)}}
+  .wy::after{content:"";position:absolute;left:0;right:0;bottom:0;height:.35cqw;background:var(--red)}
+  .wy-shine{position:absolute;top:0;bottom:0;width:30%;left:-40%;z-index:2;pointer-events:none;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-18deg)}
+  .why-slide.active .wy-shine{animation:wyshine 5s ease-in-out 1.2s infinite}
+  @keyframes wyshine{0%{left:-40%}45%,100%{left:130%}}
+  @media (prefers-reduced-motion:reduce){.why-slide.active .wy img,.why-slide.active .wy-shine{animation:none}}
+
+
+  /* ---------- HOW WE MAKE: principles + moving process ---------- */
+  .how-slide h2{font-size:3.6em}
+  .principles{display:grid;grid-template-columns:1fr 1fr;gap:2.2cqw;margin-top:-.3cqw}
+  .pcard{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5cqw;
+    min-height:14.5cqw;padding:1.6cqw 2cqw;border-radius:14px;background:linear-gradient(160deg,#1d2126,#15181b);
+    border:1px solid var(--line);border-top:3px solid var(--red);overflow:hidden}
+  .pcard::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 120%,rgba(225,11,31,.16),transparent 60%);pointer-events:none}
+  .plabel{font-family:var(--f-body);font-weight:500;font-size:.8em;letter-spacing:.28em;text-transform:uppercase;color:var(--red)}
+  .pcard .plabel{position:absolute;left:1.4cqw;top:1cqw}
+  .maya-logo{position:relative;height:8.5cqw;display:grid;place-items:center;margin-top:.8cqw}
+  .maya-logo img{height:100%;width:auto;max-width:100%;object-fit:contain;position:relative;z-index:1;background:#fff;border-radius:10px;padding:.5cqw 1.2cqw}
+  .maya-fallback{position:absolute;font-family:var(--f-head);font-weight:800;font-size:3.6em;letter-spacing:.08em;color:#fff}
+  .shloka{font-family:'Noto Sans Devanagari','Mangal','Nirmala UI',sans-serif;font-weight:700;font-size:3.5em;line-height:1.35;color:#fff;text-align:center;margin-top:.8cqw}
+  .translit{font-family:var(--f-body);font-weight:500;font-size:.95em;letter-spacing:.12em;color:var(--silver)}
+  .proc-label{margin:2.2cqw 0 .8cqw}
+  .process{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:1.2cqw}
+  .rail{position:absolute;left:10%;right:10%;top:2.3cqw;height:.28cqw;border-radius:9px;background:#2a2e34}
+  .rail-fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:9px;background:var(--red)}
+  .pulse{position:absolute;left:0;top:50%;width:1.3cqw;height:1.3cqw;margin:-.65cqw 0 0 -.65cqw;border-radius:50%;background:#fff;
+    box-shadow:0 0 0 .35cqw rgba(225,11,31,.55),0 0 1.6cqw .5cqw rgba(225,11,31,.8);opacity:0}
+  .pstep{position:relative;z-index:1;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.3cqw}
+  .pdot{width:4.6cqw;height:4.6cqw;border-radius:50%;background:#1b1e22;border:.2cqw solid #3a3f45;display:grid;place-items:center;transition:none}
+  .pdot svg{width:2.3cqw;height:2.3cqw;fill:none;stroke:var(--silver);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .pno{font-size:1.15em;color:var(--red);line-height:1;margin-top:.3cqw}
+  .pstep h3{font-size:1.2em;margin:0}
+  .pstep p{font-size:.9em;color:#aeb4bb;line-height:1.45;max-width:17cqw}
+  .how-slide.active .pdot{animation:plit 10s linear infinite;animation-delay:calc(var(--i)*2s)}
+  .how-slide.active .pstep h3{animation:ptext 10s linear infinite;animation-delay:calc(var(--i)*2s)}
+  @keyframes plit{0%{background:var(--red);border-color:#ff5a68;box-shadow:0 0 2cqw rgba(225,11,31,.75);transform:scale(1.14)}
+    18%{background:var(--red);border-color:#ff5a68;box-shadow:0 0 2cqw rgba(225,11,31,.75);transform:scale(1.14)}
+    28%,100%{background:#1b1e22;border-color:#3a3f45;box-shadow:none;transform:scale(1)}}
+  @keyframes ptext{0%,18%{color:var(--red)}28%,100%{color:#fff}}
+  .how-slide.active .pdot svg{animation:pico 10s linear infinite;animation-delay:calc(var(--i)*2s)}
+  @keyframes pico{0%,18%{stroke:#fff}28%,100%{stroke:var(--silver)}}
+  .how-slide.active .pulse{animation:ppulse 10s linear infinite}
+  @keyframes ppulse{0%{left:0;opacity:1}80%{left:100%;opacity:1}86%,100%{left:100%;opacity:0}}
+  .how-slide.active .rail-fill{animation:pfill 10s linear infinite}
+  @keyframes pfill{0%{width:0;opacity:1}80%{width:100%;opacity:1}90%{width:100%;opacity:0}100%{width:0;opacity:0}}
+  @media (prefers-reduced-motion:reduce){.how-slide.active .pdot,.how-slide.active .pstep h3,.how-slide.active .pdot svg,.how-slide.active .pulse,.how-slide.active .rail-fill{animation:none}.rail-fill{width:100%}}
+
+
+  .pimg{position:relative;width:100%;height:9.5cqw;margin-top:.6cqw;border-radius:10px;overflow:hidden;font-size:.8em;border:1.5px solid var(--line)}
+  .pimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:0}
+  .how-slide.active .pimg{animation:pimg 10s linear infinite;animation-delay:calc(var(--i)*2s)}
+  .how-slide.active .pimg img{animation:pimgz 10s linear infinite;animation-delay:calc(var(--i)*2s)}
+  @keyframes pimg{0%,18%{border-color:var(--red);box-shadow:0 0 1.6cqw rgba(225,11,31,.55);filter:none}28%,100%{border-color:var(--line);box-shadow:none;filter:grayscale(.7) brightness(.75)}}
+  @keyframes pimgz{0%{transform:scale(1)}18%{transform:scale(1.12)}28%,100%{transform:scale(1)}}
+  @media (prefers-reduced-motion:reduce){.how-slide.active .pimg,.how-slide.active .pimg img{animation:none}}
+
+
+  /* ---------- PATENT CERTIFICATES ---------- */
+  .cert-slide h2{font-size:3.6em}
+  .certs{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6cqw;margin-top:.2cqw;justify-items:center}
+  .cert{width:100%;max-width:20.3cqw;display:flex;flex-direction:column;gap:.7cqw;cursor:zoom-in;transition:transform .35s}
+  .cert:hover{transform:translateY(-.6cqw)}
+  .cert-frame{position:relative;aspect-ratio:1/1.38;width:100%;overflow:hidden;border-radius:10px;border:.22cqw solid #3a3f45;background:#f4f5f6;
+    box-shadow:0 1.2cqw 3cqw rgba(0,0,0,.55);transition:border-color .3s,box-shadow .3s;font-size:.8em;color:#7d848c}
+  .cert-frame.photo{background:repeating-linear-gradient(45deg,#1b1e22,#1b1e22 12px,#1f2327 12px,#1f2327 24px)}
+  .cert-frame.has-img{background:#f4f5f6;border-style:solid}
+  .cert:hover .cert-frame{border-color:var(--red);box-shadow:0 1.2cqw 3cqw rgba(0,0,0,.6),0 0 2.4cqw rgba(225,11,31,.45)}
+  .cert-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;border-radius:0}
+  .cert-shine{position:absolute;top:0;bottom:0;width:35%;left:-60%;z-index:2;pointer-events:none;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-18deg)}
+  .cert-slide.active .cert-shine{animation:certshine 6s ease-in-out infinite;animation-delay:calc(var(--d)*.9s)}
+  @keyframes certshine{0%{left:-60%}35%,100%{left:140%}}
+  .cert figcaption{display:flex;align-items:baseline;justify-content:center;gap:.7cqw;font-family:var(--f-body);font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;font-size:.82em;color:var(--silver)}
+  .cert figcaption .num{color:var(--red);font-size:1.5em;letter-spacing:0}
+  /* full-screen viewer */
+  #certBox{position:fixed;inset:0;z-index:100;display:none;place-items:center;background:rgba(6,7,9,.94);cursor:zoom-out;padding:3vh 3vw}
+  #certBox.on{display:grid}
+  #certBox img{max-width:94vw;max-height:94vh;object-fit:contain;border-radius:8px;box-shadow:0 0 0 2px var(--red),0 2vh 8vh rgba(0,0,0,.7);background:#fff}
+  #certBox .x{position:absolute;top:2vh;right:2vw;width:44px;height:44px;border-radius:50%;border:1px solid #444;color:#fff;font-size:22px;display:grid;place-items:center;background:#1b1e22}
+  @media (prefers-reduced-motion:reduce){.cert-slide.active .cert-shine{animation:none}}
+
+  /* ---------- RESPONSIVE: phones, small laptops, rotate hint ---------- */
+  @media (max-height:560px){
+    :root{--hh:50px;--logo-h:36px}
+    header{gap:10px;padding:0 10px}
+    main{padding:6px}
+    nav button{padding:6px 8px;font-size:10px}
+    nav button span{display:none}
+    #fsBtn{width:32px;height:32px}
+  }
+  @media (max-width:700px){
+    :root{--hh:52px;--logo-h:38px}
+    header{gap:8px;padding:0 8px}
+    nav button{padding:6px 8px;font-size:10px}
+    nav button span{display:none}
+    main{padding:6px}
+  }
+  #rotate{position:fixed;inset:0;z-index:90;display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+    background:#0B0C0E;text-align:center;padding:30px;font-family:var(--f-body)}
+  #rotate svg{width:84px;height:84px;stroke:var(--red);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;animation:rot 2.4s ease-in-out infinite}
+  @keyframes rot{0%,20%{transform:rotate(0)}60%,100%{transform:rotate(-90deg)}}
+  #rotate b{font-family:var(--f-head);font-weight:800;font-size:22px}
+  #rotate p{color:var(--silver);font-size:15px;line-height:1.5;max-width:300px}
+  #rotate button{margin-top:6px;padding:10px 20px;border:1px solid var(--line);border-radius:8px;color:var(--silver);font-size:13px}
+  @media (orientation:portrait) and (max-width:700px){#rotate:not(.off){display:flex}}
+
+  /* ================= TYPOGRAPHY SYSTEM (applies to every slide) =================
+     Headings  -> Montserrat ExtraBold 800
+     Subheads  -> Montserrat SemiBold 600
+     Labels    -> Inter Medium 500
+     Body      -> Inter Regular 400                                              */
+  :root{--f-head:'Montserrat',sans-serif;--f-sub:'Montserrat',sans-serif;--f-body:'Inter',sans-serif}
+  html,body,p,li,span,div,small,.lead,.tq,.ms,.since,.todo{font-family:var(--f-body);font-weight:400}
+  h1,h2,.num,.kpi b,.stat b,.cta h2,.counter b{font-family:var(--f-head);font-weight:800}
+  h3,h4,.who b,.patent p b,.mk h3,.fstep h3,.reason h4,.statement h3{font-family:var(--f-sub);font-weight:600}
+  .reason .rno,.pt .pn{font-family:var(--f-head);font-weight:800}
+  nav button,nav button span,.eyebrow,.chip,.hint,.who small,.kpi small,.stat small,.patent small,
+  .hc,.hc span,.mk li a,.mlinks a,.cl.empty,.fimg span,.fimg small,.counter,.vid-empty{font-family:var(--f-body);font-weight:500}
+  .counter b{font-family:var(--f-head);font-weight:800}
+  .hc em{font-family:var(--f-head);font-weight:800}
+  .ms strong,.ms span strong{font-family:var(--f-body);font-weight:600}
+  /* catch-all for older rules that set their own font */
+  .card h3,.mcol h3,.pt h4,.ms-head{font-family:var(--f-sub);font-weight:600}
+  .brand,.patent .tag,.vid-empty b{font-family:var(--f-head);font-weight:800}
+  nav button,.eyebrow,.cat span,.info small,.clients-label,.btn,.counter{font-family:var(--f-body);font-weight:500}
+  .tq::before,.quote::before{font-family:var(--f-head);font-weight:800}
 </style>
 </head>
 <body>
@@ -375,7 +535,7 @@
         <div class="hero">
           <i class="floor"></i>
 
-          <!-- YOUR VIDEO: put it in the "videos" folder (next to index.html) and name it logo_animation.mp4
+          <!-- YOUR VIDEO: the path below is relative to index.html (now images/logo_animation.mp4)
                Must be MP4 encoded as H.264 (+ AAC audio or no audio). It plays automatically (muted), loops,
                and restarts whenever you come back to this slide.
                Remove the word "loop" if you want it to play once and stop on the last frame.
@@ -384,7 +544,7 @@
             <video id="introVideo" autoplay muted loop playsinline preload="auto">
               <source src="images/logo_animation.mp4" type="video/mp4">
             </video>
-            <div class="vid-empty" id="vidStatus"><b>Your animation video</b><span id="vidMsg">Save it as <code>videos/logo_animation.mp4</code></span></div>
+            <div class="vid-empty" id="vidStatus"><b>Your animation video</b><span id="vidMsg">Save it as <code>images/logo_animation.mp4</code></span></div>
             <button type="button" class="vid-play" id="vidPlay" aria-label="Play video">▶</button>
           </div>
 
@@ -409,7 +569,19 @@
         </div>
       </section>
 
-      <!-- ===== 02 OUR HISTORY ===== -->
+      <!-- ===== 02 OUR FACTORY (full-screen photo) ===== -->
+      <section class="slide factory-slide">
+        <!-- FACTORY PHOTO: save it as images/factory.jpeg (best: landscape, 1920x1080 or bigger).
+             It fills the whole slide and scales with the screen. See --factory-fit in the settings at the top. -->
+        <div class="fimg photo"><span>Factory photo<br><small>save it as images/factory.jpeg</small></span><img src="images/factory.jpeg" alt="UniTech factory" onerror="this.remove()"></div>
+        <div class="fshade"></div>
+        <div class="fcap">
+          <div class="eyebrow reveal" style="--d:0">Our Factory</div>
+          <h2 class="reveal" style="--d:1">Inside <em>UniTech</em></h2>
+        </div>
+      </section>
+
+      <!-- ===== 03 OUR HISTORY ===== -->
       <section class="slide">
         <div class="history">
           <div>
@@ -453,7 +625,7 @@
         </div>
       </section>
 
-      <!-- ===== 03 OUR LOCATION ===== -->
+      <!-- ===== 04 OUR LOCATION ===== -->
       <section class="slide">
         <div class="eyebrow reveal">Our Location</div>
         <h2 class="reveal" style="--d:1">Find <em>Us</em></h2>
@@ -477,112 +649,27 @@
         </div>
       </section>
 
-      <!-- ===== 04 HOW WE MAKE MACHINES ===== -->
-      <section class="slide">
-        <div class="eyebrow reveal">How We Make Machines</div>
-        <h2 class="reveal" style="--d:1">From Design to <em>Delivery</em></h2>
-        <!-- Put each step photo in the images/ folder with these names (jpg): step1-designing, step2-manufacturing, step3-packing, step4-delivery, step5-installation -->
-        <div class="flow">
-          <div class="card fstep reveal" style="--d:2">
-            <span class="num">01</span>
-            <h3>Designing</h3>
-            <div class="photo stepimg"><span>Designing photo</span><img src="images/designimage.png" alt="Designing" onerror="this.remove()"></div>
-            <p>Our R&amp;D team turns customer needs into precise, production-ready machine designs.</p>
-          </div>
-          <div class="card fstep reveal" style="--d:3">
-            <span class="num">02</span>
-            <h3>Manufacturing</h3>
-            <div class="photo stepimg"><span>Manufacturing photo</span><img src="images/step2-manufacturing.jpg" alt="Manufacturing" onerror="this.remove()"></div>
-            <p>Machines are built at our Vasai facility with strict quality checks at every stage.</p>
-          </div>
-          <div class="card fstep reveal" style="--d:4">
-            <span class="num">03</span>
-            <h3>Packing</h3>
-            <div class="photo stepimg"><span>Packing photo</span><img src="images/packagingimage.png" alt="Packing" onerror="this.remove()"></div>
-            <p>Every machine is carefully packed to reach the customer safe and ready to run.</p>
-          </div>
-          <div class="card fstep reveal" style="--d:5">
-            <span class="num">04</span>
-            <h3>Delivery</h3>
-            <div class="photo stepimg"><span>Delivery photo</span><img src="images/deliveryimage.png" alt="Delivery" onerror="this.remove()"></div>
-            <p>On-time dispatch and delivery to customers across India and around the world.</p>
-          </div>
-          <div class="card fstep reveal" style="--d:6">
-            <span class="num">05</span>
-            <h3>Installation</h3>
-            <div class="photo stepimg"><span>Installation photo</span><img src="images/step5-installation.jpg" alt="Installation" onerror="this.remove()"></div>
-            <p>Our team installs and commissions the machine and trains your operators on site.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===== 05 WHAT WE MAKE ===== -->
-      <section class="slide">
-        <div class="eyebrow reveal">What We Make</div>
-        <h2 class="reveal" style="--d:1">Our <em>Products</em></h2>
-        <!-- Every product name is a link to its page on www.unitech-india.net (opens in a new tab). -->
-        <div class="make">
-          <div class="card mk reveal" style="--d:2">
-            <span class="num">01</span>
-            <h3>Screen Printing Machines</h3>
-            <ul>
-              <li><a href="https://www.unitech-india.net/products/easiprint-m-series" target="_blank" rel="noopener">Easiprint M Series</a></li>
-              <li><a href="https://www.unitech-india.net/products/easiprint-m2-series" target="_blank" rel="noopener">Easiprint M2 Series</a></li>
-              <li><a href="https://www.unitech-india.net/products/Duraprint" target="_blank" rel="noopener">Duraprint</a></li>
-              <li><a href="https://www.unitech-india.net/products/vision-print" target="_blank" rel="noopener">Visionprint</a></li>
-            </ul>
-          </div>
-          <div class="card mk reveal" style="--d:3">
-            <span class="num">02</span>
-            <h3>Pre-Press Machines</h3>
-            <ul>
-              <li><a href="https://www.unitech-india.net/products/unistretch" target="_blank" rel="noopener">Unistretch</a></li>
-              <li><a href="https://www.unitech-india.net/products/Pneustretch" target="_blank" rel="noopener">Pneustretch</a></li>
-              <li><a href="https://www.unitech-india.net/products/Autoexpose-cum-glowdry" target="_blank" rel="noopener">ACG – UV LED</a></li>
-              <li><a href="https://www.unitech-india.net/products/Evencoat" target="_blank" rel="noopener">Evencoat</a></li>
-              <li><a href="https://www.unitech-india.net/products/Uniwash" target="_blank" rel="noopener">Uniwash D &amp; R Series</a></li>
-              <li><a href="https://www.unitech-india.net/products/Washbooth" target="_blank" rel="noopener">Washbooth</a></li>
-            </ul>
-          </div>
-          <div class="card mk reveal" style="--d:4">
-            <span class="num">03</span>
-            <h3>Dryers</h3>
-            <ul>
-              <li><a href="https://www.unitech-india.net/products/Glowdry" target="_blank" rel="noopener">Glowdry</a></li>
-              <li><a href="https://www.unitech-india.net/products/Fasdry-Ht-Circulation" target="_blank" rel="noopener">Fasdry HT &amp; CIR</a></li>
-            </ul>
-          </div>
-          <div class="card mk reveal" style="--d:5">
-            <span class="num">04</span>
-            <h3>Accessories</h3>
-            <ul>
-              <li><a href="https://www.unitech-india.net/products/Sharpedge" target="_blank" rel="noopener">Sharpedge</a></li>
-              <li><a href="https://www.unitech-india.net/products/Tensorite" target="_blank" rel="noopener">Tension Meter</a></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===== 06 WHY WE MAKE ===== -->
-      <section class="slide">
+      <!-- ===== 05 WHY WE MAKE ===== -->
+      <section class="slide why-slide">
         <div class="eyebrow reveal">Why We Make</div>
         <h2 class="reveal" style="--d:1">Our <em>Purpose</em></h2>
-        <!-- Split screen: left half = Statement 1, right half = Statement 2. Each has 2 reason cards. -->
         <div class="split">
 
           <div class="half">
             <div class="statement reveal" style="--d:2">
               <span class="num">01</span>
-              <h3>We make machines that keep your production running.</h3>
+              <h3>We move from <em>Manual</em> to <em>Automation</em></h3>
             </div>
             <div class="card reason reveal" style="--d:3">
               <b class="rno num">A</b>
-              <div><h4>Reliability first</h4><p>Our self-diagnostic feature ensures persistent operation throughout production time, with reduced downtime.</p></div>
+              <div><h4>Consistency</h4><p>Reduce dependency on individual skills and achieve repeatable print quality.</p></div>
             </div>
             <div class="card reason reveal" style="--d:4">
               <b class="rno num">B</b>
-              <div><h4>Higher productivity</h4><p>Every machine is engineered to improve productivity and add value to the customer's production process.</p></div>
+              <div><h4>Productivity</h4><p>Increase production efficiency while reducing manual effort and production delays.</p></div>
             </div>
+            <!-- IMAGE: save as images/why_automation.jpeg (landscape, about 1600x700) -->
+            <div class="wy photo reveal" style="--d:5"><span>Manual to Automation photo<br><small>save it as images/why_automation.jpeg</small></span><img src="images/manualvsautomation.jpg" alt="Manual to Automation photo" onerror="this.remove()"><i class="wy-shine"></i></div>
           </div>
 
           <div class="divider reveal" style="--d:2"></div>
@@ -590,25 +677,26 @@
           <div class="half">
             <div class="statement reveal" style="--d:3">
               <span class="num">02</span>
-              <h3>We make advanced technology affordable.</h3>
+              <h3>We create <em>MAYA</em></h3>
             </div>
             <div class="card reason reveal" style="--d:4">
               <b class="rno num">A</b>
-              <div><h4>Value engineering</h4><p>We provide the most competitive products without compromising on quality, reliability or durability.</p></div>
+              <div><h4>Advanced Technology</h4><p>Make modern automation accessible to more screen printers.</p></div>
             </div>
             <div class="card reason reveal" style="--d:5">
               <b class="rno num">B</b>
-              <div><h4>Customer-centric approach</h4><p>We work closely with every customer, backed by in-house R&amp;D and distinguished service support.</p></div>
+              <div><h4>Affordable Innovation</h4><p>Deliver reliable, value-engineered machines without making automation financially out of reach.</p></div>
             </div>
+            <!-- IMAGE: save as images/why_maya.jpeg (landscape, about 1600x700) -->
+            <div class="wy photo reveal" style="--d:6"><span>MAYA photo<br><small>save it as images/why_maya.jpeg</small></span><img src="images/mayapost.png" alt="MAYA photo" onerror="this.remove()"><i class="wy-shine"></i></div>
           </div>
-
         </div>
       </section>
 
-      <!-- ===== 07 OUR MACHINES ===== -->
+      <!-- ===== 06 WHAT WE MAKE (machines with photos) ===== -->
       <section class="slide">
-        <div class="eyebrow reveal">Our Machines</div>
-        <h2 class="reveal" style="--d:1">Built to <em>Perform</em></h2>
+        <div class="eyebrow reveal">What We Make</div>
+        <h2 class="reveal" style="--d:1">Our <em>Products</em></h2>
         <!-- Photos go in images/ as: machine-printing.jpg, machine-prepress.jpg, machine-dryer.jpg
              Every machine name is a link to its page on www.unitech-india.net (opens in a new tab). -->
         <div class="machines">
@@ -654,11 +742,101 @@
         </div>
       </section>
 
-      <!-- ===== 08 OUR FACTORY ===== -->
-      <section class="slide">
-        <div class="eyebrow reveal">Our Factory</div>
-        <h2 class="reveal" style="--d:1">Inside <em>UniTech</em></h2>
-        <div class="photo reveal" style="--d:2;width:64cqw;aspect-ratio:16/9;margin:0 auto;position:relative;overflow:hidden"><span>Factory photo (16:9)</span><img src="images/factory.jpeg" alt="UniTech factory" style="position:absolute;inset:0" onerror="this.remove()"></div>
+      <!-- ===== 07 HOW WE MAKE MACHINES (principles + moving process) ===== -->
+      <section class="slide how-slide">
+        <div class="eyebrow reveal">How We Make Machines</div>
+        <h2 class="reveal" style="--d:1">Our <em>Principles</em></h2>
+
+        <div class="principles">
+          <!-- PRINCIPLE 1: MAYA logo. Save the logo as images/maya.png (transparent or white background). If missing, the word MAYA shows instead. -->
+          <div class="pcard reveal" style="--d:2">
+            <span class="plabel">Principle 01</span>
+            <div class="maya-logo"><b class="maya-fallback">MAYA</b><img src="images/mayalogo.png" alt="MAYA" onerror="this.remove()"></div>
+          </div>
+          <!-- PRINCIPLE 2: Sanskrit shloka in Devanagari -->
+          <div class="pcard reveal" style="--d:3">
+            <span class="plabel">Principle 02</span>
+            <div class="shloka" lang="sa">योगः कर्मसु कौशलम्</div>
+            <small class="translit">Yogaḥ Karmasu Kauśalam</small>
+          </div>
+        </div>
+
+        <div class="plabel proc-label reveal" style="--d:4">Our Process</div>
+        <div class="process reveal" style="--d:5">
+          <div class="rail"><i class="rail-fill"></i><i class="pulse"></i></div>
+          <div class="pstep" style="--i:0">
+            <div class="pdot"><svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16l-1 4z"/><path d="M14 6l3 3"/></svg></div>
+            <span class="pno num">01</span>
+            <h3>Designing</h3>
+            <div class="photo pimg"><span>Designing photo</span><img src="images/designimage.png" alt="Designing" onerror="this.remove()"></div>
+          </div>
+          <div class="pstep" style="--i:1">
+            <div class="pdot"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></div>
+            <span class="pno num">02</span>
+            <h3>Manufacturing</h3>
+            <div class="photo pimg"><span>Manufacturing photo</span><img src="images/step2-manufacturing.jpg" alt="Manufacturing" onerror="this.remove()"></div>
+          </div>
+          <div class="pstep" style="--i:2">
+            <div class="pdot"><svg viewBox="0 0 24 24"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></div>
+            <span class="pno num">03</span>
+            <h3>Packing</h3>
+            <div class="photo pimg"><span>Packing photo</span><img src="images/packagingimage.png" alt="Packing" onerror="this.remove()"></div>
+          </div>
+          <div class="pstep" style="--i:3">
+            <div class="pdot"><svg viewBox="0 0 24 24"><path d="M2 7h11v9H2zM13 10h5l3 3v3h-8z"/><circle cx="6.5" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/></svg></div>
+            <span class="pno num">04</span>
+            <h3>Delivery</h3>
+            <div class="photo pimg"><span>Delivery photo</span><img src="images/deliveryimage.png" alt="Delivery" onerror="this.remove()"></div>
+          </div>
+          <div class="pstep" style="--i:4">
+            <div class="pdot"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/><circle cx="12" cy="12" r="9"/></svg></div>
+            <span class="pno num">05</span>
+            <h3>Installation</h3>
+            <div class="photo pimg"><span>Installation photo</span><img src="images/step5-installation.jpg" alt="Installation" onerror="this.remove()"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 08 PATENT CERTIFICATES ===== -->
+      <section class="slide cert-slide">
+        <div class="eyebrow reveal">Our Trust</div>
+        <h2 class="reveal" style="--d:1">Patented <em>Certificates</em></h2>
+        <!-- Save your 4 certificate images as images/patent-1.jpg ... patent-4.jpg (jpg, jpeg, png or webp all work).
+             Portrait pages (like A4) look best. Click a certificate to see it full screen. -->
+        <div class="certs">
+          <figure class="cert reveal" style="--d:2" data-n="1">
+            <div class="cert-frame photo">
+              <span>Certificate 1<br><small>save it as images/patent-1.jpg</small></span>
+              <img src="images/patent1.png" alt="Patent certificate 1">
+              <i class="cert-shine"></i>
+            </div>
+            <figcaption><b class="num">01</b><span>Patent Certificate</span></figcaption>
+          </figure>
+          <figure class="cert reveal" style="--d:3" data-n="2">
+            <div class="cert-frame photo">
+              <span>Certificate 2<br><small>save it as images/patent-2.jpg</small></span>
+              <img src ="images/patent2.png" alt="Patent certificate 2">
+              <i class="cert-shine"></i>
+            </div>
+            <figcaption><b class="num">02</b><span>Patent Certificate</span></figcaption>
+          </figure>
+          <figure class="cert reveal" style="--d:4" data-n="3">
+            <div class="cert-frame photo">
+              <span>Certificate 3<br><small>save it as images/patent-3.jpg</small></span>
+              <img src="images/patent3.png" alt="Patent certificate 3">
+              <i class="cert-shine"></i>
+            </div>
+            <figcaption><b class="num">03</b><span>Patent Certificate</span></figcaption>
+          </figure>
+          <figure class="cert reveal" style="--d:5" data-n="4">
+            <div class="cert-frame photo">
+              <span>Certificate 4<br><small>save it as images/patent-4.jpg</small></span>
+              <img src="images/patent4.png" alt="Patent certificate 4">
+              <i class="cert-shine"></i>
+            </div>
+            <figcaption><b class="num">04</b><span>Patent Certificate</span></figcaption>
+          </figure>
+        </div>
       </section>
 
       <!-- ===== 09 TESTIMONIALS ===== -->
@@ -730,9 +908,18 @@
   </div>
 </main>
 
-<script>
-  const titles = ["Home","Our History","Our Location","How We Make Machines","What We Make",
-                  "Why We Make","Our Machines","Our Factory","Testimonials","Let's Connect"];
+
+  <div id="certBox" role="dialog" aria-label="Certificate viewer"><button class="x" aria-label="Close">×</button><img alt="Patent certificate"></div>
+  <div id="rotate">
+    <svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></svg>
+    <b>Rotate your phone</b>
+    <p>This presentation is designed for landscape view. Turn your phone sideways for the best experience.</p>
+    <button id="rotOff">Continue anyway</button>
+  </div>
+
+  <script>
+  const titles = ["Home","Our Factory","Our History","Our Location","Why We Make",
+                  "What We Make","How We Make Machines","Patent Certificates","Testimonials","Let's Connect"];
   const track  = document.getElementById('track');
   const slides = [...track.children];
   const nav    = document.getElementById('nav');
@@ -757,7 +944,7 @@
     if (vid.readyState >= 1 && vid.videoWidth === 0 || code === 3)
       vidProblem('The file opens, but your browser cannot decode the video.<br>Re-export it as <b>MP4 (H.264 video + AAC audio)</b> and try again.');
     else if (vid.networkState === 3 || code === 4)
-      vidProblem('The browser could not open or play <code>' + vidPath + '</code>.<br>1) Check the file name and that it is inside the <code>videos</code> folder next to index.html.<br>2) Make sure it is MP4 encoded as <b>H.264</b> (not H.265/HEVC).');
+      vidProblem('The browser could not open or play <code>' + vidPath + '</code>.<br>1) Check the file name and that the file really is at that path, next to index.html.<br>2) Make sure it is MP4 encoded as <b>H.264</b> (not H.265/HEVC).');
   }
   if (vid){
     vid.querySelectorAll('source').forEach(src => src.addEventListener('error', diagnose));
@@ -842,6 +1029,25 @@
   // open on #n if present
   const start = parseInt(location.hash.replace('#',''),10);
   goTo(!isNaN(start) ? start-1 : 0);
+
+  // ---- patent certificates: try jpg / jpeg / png / webp, then open full screen on click
+  (function(){
+    const exts=['jpg','jpeg','png','webp'];
+    document.querySelectorAll('.cert img[data-base]').forEach(img=>{
+      let k=0;const base=img.dataset.base;
+      img.addEventListener('load',()=>img.parentElement.classList.add('has-img'));
+      img.addEventListener('error',()=>{k++; if(k<exts.length){img.src=base+'.'+exts[k]}else{img.remove()}});
+      img.src=base+'.'+exts[0];
+    });
+    const box=document.getElementById('certBox'),bimg=box.querySelector('img');
+    const close=()=>box.classList.remove('on');
+    document.querySelectorAll('.cert').forEach(c=>c.addEventListener('click',()=>{
+      const im=c.querySelector('img');if(!im||!im.src)return;bimg.src=im.src;box.classList.add('on');
+    }));
+    box.addEventListener('click',close);
+    document.addEventListener('keydown',e=>{if(box.classList.contains('on')){e.stopImmediatePropagation();if(e.key==='Escape'||e.key==='Enter')close()}},true);
+    document.getElementById('rotOff').addEventListener('click',()=>document.getElementById('rotate').classList.add('off'));
+  })();
 </script>
 </body>
 </html>
