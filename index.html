@@ -22,7 +22,8 @@
     --logo-h:60px;          /* header logo height – keep it about 12-16px less than --hh. Width adjusts automatically */
     --logo-bg:#fff;         /* tile behind the logo. Use "transparent" if your logo already looks good on dark */
     --logo-pad:3px 8px;     /* space inside that tile (make it 0 if you want the logo edge-to-edge) */
-    --video-fit:contain;    /* contain = whole video always visible | cover = fills the area (edges may be cropped) */
+    --video-fit:cover;      /* cover = video fills the whole slide (edges may be trimmed on other shapes) | contain = whole video always visible (may show bars) */
+    --video-pos:center;     /* which part stays visible when trimmed: center | top | bottom | left | right */
     --factory-fit:cover;    /* factory photo: cover = fills the whole slide (may trim edges) | contain = whole photo visible */
     --factory-pos:center;   /* which part stays visible when trimmed: center | top | bottom | left | right */
     /* =============================================================== */
@@ -129,21 +130,16 @@
   .pt h4{font:700 1em 'Montserrat',sans-serif;margin-bottom:.1em}
   .pt p{font-size:.92em;color:#cdd2d8;line-height:1.5}
 
-  /* ---------- SLIDE 1: HERO (your video on the top half, categories at the bottom) ---------- */
-  .slide.hero-slide{padding:0;background:radial-gradient(75cqw 40cqw at 50% 30%,#241218 0%,#14161a 55%,#0d0f12 100%)}
+  /* ---------- SLIDE 1: HERO (video fills the whole slide + one headline line) ---------- */
+  .slide.hero-slide{padding:0;background:#0b0c0e}
   .slide.hero-slide::before{display:none}
-  .slide.hero-slide>.hero{position:absolute;inset:0;display:grid;grid-template-rows:58% 1fr;overflow:hidden}
-  .hero .floor{position:absolute;left:-10%;right:-10%;bottom:-6%;height:46%;opacity:.25;pointer-events:none;
-    background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);
-    background-size:4cqw 4cqw;transform:perspective(60cqw) rotateX(58deg);transform-origin:50% 100%;
-    -webkit-mask-image:linear-gradient(0deg,#000 10%,transparent 80%);mask-image:linear-gradient(0deg,#000 10%,transparent 80%)}
+  .slide.hero-slide>.hero{position:absolute;inset:0;overflow:hidden}
 
-  .vid-wrap{position:relative;min-height:0;display:grid;place-items:center;overflow:hidden}
-  .vid-wrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:var(--video-fit);display:block}
-  /* soft edges: gradient overlays (safer than masking the <video> itself) */
+  .vid-wrap{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden;background:#0b0c0e}
+  .vid-wrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:var(--video-fit);object-position:var(--video-pos);display:block}
+  /* dark fade at the bottom so the headline is always readable on any video */
   .vid-wrap::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-    background:linear-gradient(90deg,#0e1013 0,transparent 6%,transparent 94%,#0e1013 100%),
-               linear-gradient(180deg,#101216 0,transparent 4%,transparent 90%,#12141a 100%)}
+    background:linear-gradient(0deg,rgba(8,9,11,.88) 0,rgba(8,9,11,.55) 16%,rgba(8,9,11,0) 38%)}
   .vid-empty{display:none;position:relative;z-index:2;max-width:70cqw;text-align:center;color:var(--silver);line-height:1.5;padding:2cqw 3cqw;border:2px dashed #4a4f56;border-radius:1.4cqw;background:rgba(20,22,26,.8)}
   .vid-empty b{display:block;font:800 2.2em 'Montserrat',sans-serif;color:#fff;margin-bottom:.3em}
   .vid-empty code{background:#262a2f;color:#ff8a94;padding:.15em .5em;border-radius:5px;font-size:.95em}
@@ -154,34 +150,25 @@
   .needplay .vid-play{display:block}
   .novideo .vid-wrap video{display:none}
 
-  .hero .sep{position:absolute;left:12%;right:12%;top:58%;height:2px;background:linear-gradient(90deg,transparent,var(--red) 30%,#ff6a76 50%,var(--red) 70%,transparent);box-shadow:0 0 1.4cqw rgba(225,11,31,.6);transform:scaleX(0);opacity:0}
-
-  .h-cats{position:relative;z-index:2;align-self:center;justify-self:center;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5cqw;width:84cqw;margin-top:-1.5cqw}
-  .hc{display:flex;align-items:center;justify-content:space-between;gap:1cqw;padding:1.9cqw 2cqw;border-radius:1.2cqw;text-decoration:none;color:#fff;
-    background:linear-gradient(180deg,rgba(40,44,50,.85),rgba(24,26,30,.9));border:1px solid #3a3f45;border-top:4px solid var(--red);
-    font:800 1.4em 'Montserrat',sans-serif;letter-spacing:.01em;white-space:nowrap;opacity:0;
-    box-shadow:0 1.2cqw 3cqw rgba(0,0,0,.45);transition:background .25s,transform .25s,border-color .25s,box-shadow .25s}
-  .hc svg{width:3cqw;height:3cqw;flex:0 0 auto;stroke:var(--red);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .25s}
-  .hc span{flex:1;text-align:left;margin-left:.2cqw}
-  .hc em{font-style:normal;color:var(--red);font-weight:800;transition:color .25s,transform .25s}
-  .hc:hover{background:var(--red);border-color:var(--red);transform:translateY(-.7cqw);box-shadow:0 1.4cqw 4cqw rgba(225,11,31,.5)}
-  .hc:hover svg{stroke:#fff}.hc:hover em{color:#fff;transform:translateX(4px)}
-  .hc:active,.hc.pressed{background:var(--red);border-color:var(--red);transform:scale(.97);box-shadow:0 0 0 .6cqw rgba(225,11,31,.35)}
+  /* the one headline line */
+  .hero-tag{position:absolute;left:0;right:0;bottom:4.6cqw;z-index:2;text-align:center;padding:0 5cqw;pointer-events:none}
+  .hero-tag h1{font-family:'Montserrat',sans-serif;font-weight:800;text-transform:uppercase;font-size:1.9cqw;line-height:1.2;letter-spacing:.14em;color:#fff;
+    text-shadow:0 .2cqw 1.4cqw rgba(0,0,0,.75)}
+  .hero-tag h1 span{display:block;font-weight:800}
+  .hero-tag h1 em{display:block;font-style:normal;font-size:2.1em;letter-spacing:.05em;margin-top:.15em;color:var(--red);text-shadow:0 0 1.6cqw rgba(225,11,31,.55),0 .2cqw 1.2cqw rgba(0,0,0,.7)}
+  .hero-tag i{display:block;width:14cqw;height:.32cqw;margin:1.1cqw auto 0;border-radius:9px;background:linear-gradient(90deg,transparent,var(--red),#ff6a76,var(--red),transparent);
+    box-shadow:0 0 1.2cqw rgba(225,11,31,.7);transform:scaleX(0)}
 
   /* entrance: restarts every time slide 1 becomes active */
   .hero-slide.active .vid-wrap{animation:vfade 1.1s ease .1s both}
-  .hero-slide.active .sep{animation:sep 1.2s cubic-bezier(.2,.8,.2,1) .5s forwards}
-  .hero-slide.active .hc{animation:rise .8s cubic-bezier(.2,.8,.2,1) forwards}
-  .hero-slide.active .hc:nth-child(1){animation-delay:.7s}
-  .hero-slide.active .hc:nth-child(2){animation-delay:.85s}
-  .hero-slide.active .hc:nth-child(3){animation-delay:1s}
-  .hero-slide.active .hc:nth-child(4){animation-delay:1.15s}
+  .hero-slide.active .hero-tag h1{animation:tagrise 1s cubic-bezier(.2,.8,.2,1) .8s both}
+  .hero-slide.active .hero-tag i{animation:tagline 1.1s cubic-bezier(.2,.8,.2,1) 1.4s forwards}
   @keyframes vfade{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
-  @keyframes sep{to{transform:scaleX(1);opacity:1}}
-  @keyframes rise{from{opacity:0;transform:translateY(2.4cqw)}to{opacity:1;transform:none}}
+  @keyframes tagrise{from{opacity:0;transform:translateY(2.4cqw)}to{opacity:1;transform:none}}
+  @keyframes tagline{to{transform:scaleX(1)}}
   @media (prefers-reduced-motion:reduce){
-    .hero-slide.active .vid-wrap,.hero-slide.active .sep,.hero-slide.active .hc{animation:none!important}
-    .hero-slide .hc{opacity:1}.hero-slide .sep{opacity:1;transform:none}
+    .hero-slide.active .vid-wrap,.hero-slide.active .hero-tag h1,.hero-slide.active .hero-tag i{animation:none!important}
+    .hero-slide .hero-tag i{transform:none}
   }
 
   /* ---------- SLIDE 2: OUR FACTORY (full-screen photo) ---------- */
@@ -535,11 +522,9 @@
 
     <div class="track" id="track">
 
-      <!-- ===== 01 HOME (your intro video + categories) ===== -->
+      <!-- ===== 01 HOME (full-screen video + headline) ===== -->
       <section class="slide hero-slide">
         <div class="hero">
-          <i class="floor"></i>
-
           <!-- YOUR VIDEO: the path below is relative to index.html (now images/logo_animation.mp4)
                Must be MP4 encoded as H.264 (+ AAC audio or no audio). It plays automatically (muted), loops,
                and restarts whenever you come back to this slide.
@@ -553,23 +538,9 @@
             <button type="button" class="vid-play" id="vidPlay" aria-label="Play video">▶</button>
           </div>
 
-          <i class="sep"></i>
-
-          <!-- These four buttons are clickable but do nothing yet (no website visit).
-               To link one later, put a web address in its data-href="" (it then opens in a new tab). -->
-          <div class="h-cats" role="group" aria-label="Product categories">
-            <button type="button" class="hc" data-href="">
-              <svg viewBox="0 0 24 24"><path d="M3 5h18v10H3z"/><path d="M8 15v5h8v-5"/><path d="M7 9h10"/></svg><span>Screen Printing</span><em>→</em>
-            </button>
-            <button type="button" class="hc" data-href="">
-              <svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10"/><path d="M3 3l3 3M21 3l-3 3M3 21l3-3M21 21l-3-3"/></svg><span>Pre-Press</span><em>→</em>
-            </button>
-            <button type="button" class="hc" data-href="">
-              <svg viewBox="0 0 24 24"><path d="M8 3c-2 3 2 4 0 7M13 3c-2 3 2 4 0 7M18 3c-2 3 2 4 0 7"/><path d="M3 15h18M3 20h18"/></svg><span>Dryers</span><em>→</em>
-            </button>
-            <button type="button" class="hc" data-href="">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg><span>Accessories</span><em>→</em>
-            </button>
+          <div class="hero-tag">
+            <h1><span>Empowering Screen Printers with</span><em>Affordable Automation</em></h1>
+            <i></i>
           </div>
         </div>
       </section>
@@ -723,7 +694,7 @@
       <section class="slide factory-slide">
         <!-- FACTORY PHOTO: save it as images/factory.jpeg (best: landscape, 1920x1080 or bigger).
              It fills the whole slide and scales with the screen. See --factory-fit in the settings at the top. -->
-        <div class="fimg photo"><span>Factory photo<br><small>save it as images/factory.jpeg</small></span><img src="images/factory.jpeg" alt="UniTech factory" onerror="this.remove()"></div>
+        <div class="fimg photo"><span>Factory photo<br><small>save it as images/factory.jpeg</small></span><img src="images/factor_image_inside.jpeg" alt="UniTech factory" onerror="this.remove()"></div>
         <div class="fshade"></div>
         <div class="fcap">
           <div class="eyebrow reveal" style="--d:0">Our Factory</div>
